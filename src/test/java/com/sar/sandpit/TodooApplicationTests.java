@@ -23,7 +23,7 @@ public class TodooApplicationTests {
 	@Test
 	public void addTaskItem_success() throws Exception {
 
-		String s ="";
+		String s ="string";
 
 		s=null;
 		///Assert.assertThat("",);
