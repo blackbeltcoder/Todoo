@@ -7,4 +7,5 @@ public interface ItemStorable {
     Long getSize();
 
 
+    void addItem(Item capture);
 }

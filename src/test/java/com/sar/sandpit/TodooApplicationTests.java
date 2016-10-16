@@ -25,7 +25,7 @@ public class TodooApplicationTests {
 
 		String s ="string";
 
-		s=null;
+		//s=null;
 		///Assert.assertThat("",);
 
 		assertThat("", s ,is(notNullValue()));

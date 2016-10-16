@@ -8,9 +8,11 @@ import org.mockito.*;
 
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,34 +33,21 @@ public class ItemServiceTest {
     @Mock
     ItemStorable itemStorable;
 
+    @Captor
+    ArgumentCaptor<Item> itemCapture;
+
     @Spy
     @InjectMocks
     private ItemServiceable itemService =new ItemService( itemStorable);
 
     @Test
     public  void addTaskItem_success() throws Exception {
-
-        Long num =0L;
         Item item =new Item();
-        when(itemStorable.getSize()).thenReturn(num++);
-
-
-        assertThat("", itemService,is(notNullValue()));
-        assertThat("should be zero ", itemService.getSize() < 1);
-        num++;
-
-        // when(itemService).
-        //when(itemService).add().
-        //itemService.;
-
-        ///Assert.assertThat("",);
-
-
-
         itemService.add(item);
 
 
-        assertThat("should be greater than one ", itemService.getSize(), is(Matchers.greaterThan(0L)));
+        verify(itemStorable).addItem(itemCapture.capture());
+        assertThat("Item should be added", itemCapture.getValue(), is(equalTo(item)));
 
 
     }

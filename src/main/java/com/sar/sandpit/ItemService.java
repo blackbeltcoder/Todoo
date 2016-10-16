@@ -18,6 +18,7 @@ public class ItemService implements ItemServiceable {
 
     @Override
     public void add(Item item) {
+        itemStore.addItem(item);
 
     }
 
