@@ -8,4 +8,6 @@ public interface ItemServiceable {
     Item retrieve(long id);
     Long getSize();
     void setStorable(ItemStorable itemStorable);
+
+    boolean delete(Item item);
 }

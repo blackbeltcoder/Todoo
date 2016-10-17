@@ -8,4 +8,6 @@ public interface ItemStorable {
 
 
     void addItem(Item capture);
+
+    boolean deleteItem(Item item);
 }

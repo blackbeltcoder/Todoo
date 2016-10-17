@@ -23,6 +23,13 @@ public class ItemService implements ItemServiceable {
     }
 
     @Override
+    public boolean delete(Item item) {
+
+        itemStore.deleteItem(item);
+        return false;
+    }
+
+    @Override
     public Item retrieve(long id) {
         return null;
     }

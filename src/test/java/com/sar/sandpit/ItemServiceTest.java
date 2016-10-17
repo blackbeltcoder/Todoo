@@ -53,6 +53,18 @@ public class ItemServiceTest {
     }
 
     @Test
+    public void deleteTaskItem_success() throws Exception {
+        Item item= new Item();
+        itemService.delete(item);
+
+
+        verify(itemStorable).deleteItem(itemCapture.capture());
+        assertThat("item should be deleted ",itemCapture.getValue(), is(equalTo(item)));
+
+
+    }
+
+    @Test
     public void name() throws Exception {
 
     }
