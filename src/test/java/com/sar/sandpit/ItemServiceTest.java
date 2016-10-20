@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -30,13 +32,14 @@ public class ItemServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Mock
+    @MockBean
     ItemStorable itemStorable;
 
     @Captor
     ArgumentCaptor<Item> itemCapture;
 
     @Spy
+    //@SpyBean
     @InjectMocks
     private ItemServiceable itemService =new ItemService( itemStorable);
 
@@ -46,7 +49,7 @@ public class ItemServiceTest {
         itemService.add(item);
 
 
-        verify(itemStorable).addItem(itemCapture.capture());
+        verify(itemStorable).saveItem(itemCapture.capture());
         assertThat("Item should be added", itemCapture.getValue(), is(equalTo(item)));
 
 
@@ -62,10 +65,18 @@ public class ItemServiceTest {
         assertThat("item should be deleted ",itemCapture.getValue(), is(equalTo(item)));
 
 
+
     }
 
+
     @Test
-    public void name() throws Exception {
+    public void updateTask_Success() throws Exception {
+        Item item = new Item();
+
+        itemService.updateItem(item);
+
+        verify(itemStorable).saveItem(itemCapture.capture());
+        assertThat("item should be deleted ",itemCapture.getValue(), is(equalTo(item)));
 
     }
 }

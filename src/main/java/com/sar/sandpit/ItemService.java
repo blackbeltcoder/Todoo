@@ -1,11 +1,21 @@
 package com.sar.sandpit;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 /**
  * Created by N460906 on 13/10/2016.
  */
+@Service
 public class ItemService implements ItemServiceable {
 
     private  ItemStorable itemStore;
+
+    @Override
+    public boolean updateItem(Item item) {
+        itemStore.saveItem(item);
+        return false;
+    }
 
     public ItemService(ItemStorable itemStorable) {
 
@@ -18,7 +28,8 @@ public class ItemService implements ItemServiceable {
 
     @Override
     public void add(Item item) {
-        itemStore.addItem(item);
+        itemStore.saveItem(item);
+
 
     }
 

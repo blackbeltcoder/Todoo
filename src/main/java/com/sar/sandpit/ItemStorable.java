@@ -10,4 +10,8 @@ public interface ItemStorable {
     void addItem(Item capture);
 
     boolean deleteItem(Item item);
+
+    boolean saveItem(Item item);
+
+    <T> Item getItem(long i);
 }
