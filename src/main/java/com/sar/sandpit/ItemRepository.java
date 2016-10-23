@@ -11,6 +11,10 @@ public class ItemRepository implements ItemStorable {
     private static final HashMap<Long, Item> ITEMS = new HashMap<>() ;
     private static Long  SIZE =0L;
 
+    public ItemRepository(){
+        ITEMS.clear();
+    }
+
     Item item = new Item(0);
 
     @Override
@@ -26,6 +30,7 @@ public class ItemRepository implements ItemStorable {
 
     @Override
     public boolean deleteItem(Item item) {
+        ITEMS.remove(item.getId());
         return false;
     }
 
@@ -37,7 +42,9 @@ public class ItemRepository implements ItemStorable {
     @Override
     public boolean saveItem(Item item) {
 
-        ITEMS.put(item.getId(), item);
+//        if ( ITEMS.get(item.getId())==null)
+            ITEMS.put(item.getId(), item);
+
 
         //SIZE++;
 
