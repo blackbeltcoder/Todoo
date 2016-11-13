@@ -1,17 +1,19 @@
 package com.sar.sandpit;
 
+import org.springframework.data.repository.CrudRepository;
+
 /**
  * Created by N460906 on 13/10/2016.
  */
-public interface ItemStorable {
-    Long getSize();
+public interface ItemStorable extends CrudRepository<Item,Long> {
+    //Long count();
 
 
-    void addItem(Item capture);
+   // void addItem(Item capture);
 
-    boolean deleteItem(Item item);
+   // boolean delete(Item item);
+//
+ //   boolean save(Item item);
 
-    boolean saveItem(Item item);
-
-    <T> Item getItem(long i);
+   // <T> Item findOne(long i);
 }

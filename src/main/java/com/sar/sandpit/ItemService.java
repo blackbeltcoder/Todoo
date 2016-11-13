@@ -1,6 +1,6 @@
 package com.sar.sandpit;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemService implements ItemServiceable {
 
+    @Autowired
     private  ItemStorable itemStore;
 
     @Override
     public boolean updateItem(Item item) {
-        itemStore.saveItem(item);
+        itemStore.save(item);
         return false;
     }
 
@@ -28,7 +29,7 @@ public class ItemService implements ItemServiceable {
 
     @Override
     public void add(Item item) {
-        itemStore.saveItem(item);
+        itemStore.save(item);
 
 
     }
@@ -36,7 +37,7 @@ public class ItemService implements ItemServiceable {
     @Override
     public boolean delete(Item item) {
 
-        itemStore.deleteItem(item);
+        itemStore.delete(item);
         return false;
     }
 
@@ -47,7 +48,7 @@ public class ItemService implements ItemServiceable {
 
     @Override
     public Long getSize() {
-        return itemStore.getSize();
+        return itemStore.count();
     }
 
     @Override

@@ -5,42 +5,48 @@ import java.util.HashMap;
 /**
  * Created by genio on 20/10/16.
  */
-public class ItemRepository implements ItemStorable {
+public class FakeItemRepository {//implements ItemStorable {
 
 
     private static final HashMap<Long, Item> ITEMS = new HashMap<>() ;
     private static Long  SIZE =0L;
 
-    public ItemRepository(){
+    public FakeItemRepository(){
         ITEMS.clear();
+    }
+
+
+    //@Override
+    public void delete(Long aLong) {
+
     }
 
     Item item = new Item(0);
 
-    @Override
+    //@Override
     public Long getSize() {
         return Long.valueOf(ITEMS.size());
     }
 
-    @Override
+    //@Override
     public void addItem(Item item) {
 
 
     }
 
-    @Override
-    public boolean deleteItem(Item item) {
+   // @Override
+    public boolean delete(Item item) {
         ITEMS.remove(item.getId());
         return false;
     }
 
-    @Override
+   // @Override
     public <T> Item getItem(long i) {
         return ITEMS.get(i);
     }
 
-    @Override
-    public boolean saveItem(Item item) {
+
+    public boolean save(Item item) {
 
 //        if ( ITEMS.get(item.getId())==null)
             ITEMS.put(item.getId(), item);
