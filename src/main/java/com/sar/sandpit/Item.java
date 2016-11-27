@@ -14,7 +14,7 @@ public class Item {
     private final String details;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private final long id;
 
     public Item(){
         this(0,"");
@@ -36,4 +36,10 @@ public class Item {
     public <T> String getDetails() {
         return details;
     }
+
+
+    public void testMethod(String test){
+        System.out.println(test.toUpperCase()+"\n");
+    }
+
 }
