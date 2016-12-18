@@ -18,6 +18,14 @@ public class ItemService implements ItemServiceable {
         return false;
     }
 
+    @Override
+    public Item getItem(long id) {
+
+        itemStore.findOne(id);
+        return null;
+        //return new Item();
+    }
+
     public ItemService(ItemStorable itemStorable) {
 
         itemStore = itemStorable;
@@ -36,9 +44,8 @@ public class ItemService implements ItemServiceable {
 
     @Override
     public boolean delete(Item item) {
-
         itemStore.delete(item);
-        return false;
+        return itemStore.exists(item.getId());
     }
 
     @Override
