@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -119,4 +122,40 @@ public class ItemServiceTest {
         assertThat("item not null", res, is(notNullValue()));
 
     }
+
+
+    @Test
+    public void addMultiple_using_explicitCurry_success(){
+
+        //Arrange
+        Function<Integer,Integer> addThree = x-> x+3;
+        Function<Integer,Integer> multiplyFour= x-> x*4;
+        //method one by more imperative
+        Function<Integer, Integer>  addThreeThenMuliplyByFour = x-> multiplyFour.apply(addThree.apply(x));
+        //method two  more declarative 1
+        Function<Integer,Integer> addThreeThenMuliplyByFourComposition =  multiplyFour.compose(addThree);
+        //method three more delcartive 2
+        Function<Integer, Integer> addThreeThenMuliplyByFour_andThen      =    addThree.andThen(multiplyFour);
+
+        //Act
+        int num = 2;
+        int res =
+                //addThreeThenMuliplyByFour.apply(2) ;
+                //addThreeThenMuliplyByFourComposition.apply(2);
+                addThreeThenMuliplyByFour_andThen.apply(num);
+
+        //Assert
+        // 2+3*4=20
+        assertThat(addThreeThenMuliplyByFour.apply(num),
+                   is(equalTo(20)));
+        assertThat(addThreeThenMuliplyByFourComposition.apply(num),
+                   is(equalTo(20)));
+        assertThat(res, is(equalTo(20)));
+
+
+    }
+
+
+
+
 }
