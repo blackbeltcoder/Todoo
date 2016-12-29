@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -132,6 +133,12 @@ public class ItemServiceTest {
         Function<Integer,Integer> multiplyFour= x-> x*4;
         //method one by more imperative
         Function<Integer, Integer>  addThreeThenMuliplyByFour = x-> multiplyFour.apply(addThree.apply(x));
+        //
+        Supplier<Function<Integer,Integer>> addThreeThenMuliplyByFourB =()-> y -> (y+3)*4;
+        Supplier<Function<Integer,Integer>> addThreeThenMuliplyByFourC =()-> addThreeMultiplyByFourC();
+        //method ref
+        Function<Integer,Integer> addThreeThenMuliplyByFourD =this::addThreeMultiplyByFourD;
+
         //method two  more declarative 1
         Function<Integer,Integer> addThreeThenMuliplyByFourComposition =  multiplyFour.compose(addThree);
         //method three more delcartive 2
@@ -148,6 +155,12 @@ public class ItemServiceTest {
         // 2+3*4=20
         assertThat(addThreeThenMuliplyByFour.apply(num),
                    is(equalTo(20)));
+        assertThat(addThreeThenMuliplyByFourB.get().apply(num),
+                   is(equalTo(20)));
+        assertThat(addThreeThenMuliplyByFourC.get().apply(num),
+                   is(equalTo(20)));
+        assertThat(addThreeThenMuliplyByFourD.apply(num),
+                   is(equalTo(20)));
         assertThat(addThreeThenMuliplyByFourComposition.apply(num),
                    is(equalTo(20)));
         assertThat(res, is(equalTo(20)));
@@ -155,7 +168,12 @@ public class ItemServiceTest {
 
     }
 
-
+    private Function<Integer, Integer> addThreeMultiplyByFourC() {
+        return y -> (y+3)*4;
+    }
+    private Integer addThreeMultiplyByFourD(Integer y) {
+        return (y+3)*4;
+    }
 
 
 }
