@@ -117,10 +117,23 @@ public class ItemServiceTest {
     @Test
     public void getItem_success2() throws Exception {
 
+        long id =1L;
         //Arrange
-        when(itemStorable.findOne(1L)).thenReturn(new Item(1L));
-        Item res =itemService.getItem(1L);
+        when(itemStorable.findOne(id)).thenReturn(new Item(id));
+        Item res =itemService.getItem(id);
         assertThat("item not null", res, is(notNullValue()));
+        assertThat("item not equal to id ",id,is(equalTo(res.getId())));
+
+    }
+    @Test
+    public void getItem_success3() throws Exception {
+
+        long id =2L;
+        //Arrange
+        when(itemStorable.findOne(id)).thenReturn(new Item(id));
+        Item res =itemService.getItem(id);
+        assertThat("item not null", res, is(notNullValue()));
+        assertThat("item not equal to id ",id,is(equalTo(res.getId())));
 
     }
 
