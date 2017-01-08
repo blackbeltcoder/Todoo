@@ -19,7 +19,7 @@ public class ItemService implements ItemServiceable {
     }
 
     @Override
-    public Item getItem(long id) {
+    public Item     getItem(long id) {
         return itemStore.findOne(id);
     }
 
