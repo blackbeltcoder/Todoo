@@ -3,6 +3,7 @@ package com.sar.sandpit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ValueConstants;
@@ -26,9 +27,9 @@ public class ItemController {
         return "todo/index";
     }
 
-    @RequestMapping(path ="item")
-    public String item(ModelMap modal){
-        modal.put("item", itemService.getItem(1L));
+    @RequestMapping(path ="item/{id}")
+    public String item(@PathVariable Long id, ModelMap modal){
+        modal.put("item", itemService.getItem(id));
         return "todo/item";
         //throw  new NotImplementedException();
     }
