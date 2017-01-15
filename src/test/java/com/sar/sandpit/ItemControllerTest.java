@@ -42,6 +42,21 @@ public class ItemControllerTest {
 
 
     @Test
+    public void addItem_whenItemDoesnotExit_success() throws Exception {
+        mockMvc.perform(
+                post("/todo/addItem/")
+                        .param("id","99")
+                        .param("details","taskz")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("99")))
+                .andExpect(content().string(containsString("taskz")))
+                .andExpect(view().name("todo/addItemResult"))
+                .andReturn();
+
+    }
+
+    @Test
     public void displayItem_StoreHasOneItem_Success() throws Exception {
 
         Long id =1l;
@@ -50,9 +65,11 @@ public class ItemControllerTest {
 
 
         when(itemService.getItem(id)).thenReturn(new Item(id,detail));
-        mockMvc.perform(get("/todo/item"))
+        mockMvc.perform(get("/todo/item/"+id))
                 .andExpect(status().isOk())
+                .andExpect(view().name("todo/item"))
                 .andExpect(model().attribute("item", is(notNullValue())))
+
         //.andExpect();
         ;
 
@@ -61,6 +78,25 @@ public class ItemControllerTest {
 
         
 
+    }
+    @Test
+    public void displayItem_StoreHasOneItem_Success2() throws Exception {
+
+        Long id = 2l;
+        String detail = "task2";
+        Item item = new Item(id, detail);
+
+
+        when(itemService.getItem(id)).thenReturn(item);
+        mockMvc.perform(get("/todo/item/"+id))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("item", is(equalTo(item))))
+
+        //.andExpect();
+        ;
+
+        verify(itemService).getItem(id);
+        // throw new NotImplementedException();
     }
 
 

@@ -2,11 +2,9 @@ package com.sar.sandpit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ValueConstants;
+import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -33,6 +31,28 @@ public class ItemController {
         return "todo/item";
         //throw  new NotImplementedException();
     }
+
+    @PostMapping(path = "addItem")
+    public String addItem(@ModelAttribute ItemDto item, Model model){
+
+      //  ItemDto i = item;
+     //   throw new NotImplementedException();
+
+       // model.addAttribute("item",item );
+        return "todo/addItemResult";
+
+    }
+
+
+//    @RequestMapping("addItemResult")
+//    public String addItemResult(Model model){
+//
+//        return a
+//    }
+
+
+
+
 
 
     @RequestMapping(value = "/items" , method = RequestMethod.GET)

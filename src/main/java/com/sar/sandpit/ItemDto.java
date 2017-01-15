@@ -1,30 +1,30 @@
 package com.sar.sandpit;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.math.BigInteger;
-
 /**
  * Created by N460906 on 13/10/2016.
  */
-@Entity
-public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private final long id;
-    private final String details;
 
-    public Item(){
+public class ItemDto {
+    private long id;
+    private  String details;
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public ItemDto(){
         this(0,"");
     }
 
-    public Item(long id) {
+    public ItemDto(long id) {
         this(id, "");
     }
 
-    public Item(long id, String task) {
+    public ItemDto(long id, String task) {
         this.id=id;
         this.details = task;
     }
