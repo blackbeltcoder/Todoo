@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface ItemServiceable {
-    void add(Item item);
+    Item add(Item item);
     Item retrieve(long id);
     Long getSize();
     void setStorable(ItemStorable itemStorable);

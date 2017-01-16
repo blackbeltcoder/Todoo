@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,12 +38,29 @@ public class ItemControllerTest {
 
     @MockBean
     ItemService itemService;
+//    @MockBean
+//    ItemStorable itemStorable;
     @Captor
     ArgumentCaptor<Item> itemCapture;
 
 
+
     @Test
     public void addItem_whenItemDoesnotExit_success() throws Exception {
+        mockMvc.perform(
+                post("/todo/addItem/")
+                        .param("id","1")
+                        .param("details","taska")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("1")))
+                .andExpect(content().string(containsString("taska")))
+                .andExpect(view().name("todo/addItemResult"))
+                .andReturn();
+
+    }
+    @Test
+    public void addItem_whenItemDoesnotExit_success2() throws Exception {
         mockMvc.perform(
                 post("/todo/addItem/")
                         .param("id","99")
@@ -53,6 +71,30 @@ public class ItemControllerTest {
                 .andExpect(content().string(containsString("taskz")))
                 .andExpect(view().name("todo/addItemResult"))
                 .andReturn();
+
+    }
+
+    @Test
+    public void addItem_WhenItemDoesnotExist_success() throws Exception {
+
+
+        final String task = "a task";
+        final long id = 1L;
+        Item item = new Item(id, task);
+
+
+        //when(itemService.add(item)).thenReturn( new Item());
+        when(itemService.add(item)).thenReturn(item);
+
+        mockMvc.perform(
+                post("/todo/addItem/")
+                        .param("id",Long.toString(id))
+                        .param("details",task)
+        )
+                .andExpect(status().isOk());
+
+        verify(itemService,times(1)).add(itemCapture.capture());
+       // assertThat("should be equal", item, is(equalTo(itemCapture.getValue())));
 
     }
 

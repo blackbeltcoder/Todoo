@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemService implements ItemServiceable {
 
-    @Autowired
+    //@Autowired
     private  ItemStorable itemStore;
 
     @Override
@@ -23,6 +23,7 @@ public class ItemService implements ItemServiceable {
         return itemStore.findOne(id);
     }
 
+    @Autowired
     public ItemService(ItemStorable itemStorable) {
 
         itemStore = itemStorable;
@@ -33,10 +34,8 @@ public class ItemService implements ItemServiceable {
 
 
     @Override
-    public void add(Item item) {
-        itemStore.save(item);
-
-
+    public Item add(Item item) {
+        return itemStore.save(item);
     }
 
     @Override

@@ -33,14 +33,22 @@ public class ItemController {
     }
 
     @PostMapping(path = "addItem")
-    public String addItem(@ModelAttribute ItemDto item, Model model){
+    public String addItemResult(@ModelAttribute ItemDto item, Model model){
+        //itemService.add(new Item(item.getId(), item.getDetails()));
 
-      //  ItemDto i = item;
-     //   throw new NotImplementedException();
-
-       // model.addAttribute("item",item );
+        model.addAttribute("item",
+                          // new Item(item.getId(), item.getDetails())
+                           //todo code working tests not! suggesting access across post request
+                           itemService.add(new Item(item.getId(), item.getDetails()))
+        );
         return "todo/addItemResult";
 
+    }
+    @GetMapping(path="addItem")
+    public String addItem(Model model){
+
+        model.addAttribute("item",new ItemDto());
+        return "todo/addItem";
     }
 
 
