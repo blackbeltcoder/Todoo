@@ -15,8 +15,15 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @RequestMapping("/todo")
 public class ItemController {
 
-    @Autowired
+   // @Autowired
     ItemService itemService;
+
+    public ItemController(){}
+    @Autowired
+    public ItemController(ItemService is) {
+        itemService=is;
+    }
+
 
     @RequestMapping( path ="index", method = RequestMethod.GET)
     public String home(){

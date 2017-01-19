@@ -1,6 +1,7 @@
 package com.sar.sandpit;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -13,8 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -33,7 +36,7 @@ import static org.springframework.test.web.servlet.result.ModelResultMatchers.*;
 @WebMvcTest   // Just the web context
 public class ItemControllerTest {
 
-    @Autowired
+    //@Autowired
     MockMvc mockMvc;
 
     @MockBean
@@ -44,9 +47,27 @@ public class ItemControllerTest {
     ArgumentCaptor<Item> itemCapture;
 
 
+    @Before
+    public void init(){
+        mockMvc =MockMvcBuilders.standaloneSetup(new ItemController(itemService)).build();
+    }
+
+
 
     @Test
     public void addItem_whenItemDoesnotExit_success() throws Exception {
+
+
+
+        final String task = "tasks";
+        final long id = 1L;
+        Item item = new Item(id, task);
+
+
+        //when(itemService.add(item)).thenReturn( new Item());
+        when(itemService.add(item)).thenReturn(item);
+
+
         mockMvc.perform(
                 post("/todo/addItem/")
                         .param("id","1")
