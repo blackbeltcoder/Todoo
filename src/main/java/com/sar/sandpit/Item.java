@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Created by N460906 on 13/10/2016.
@@ -36,6 +37,28 @@ public class Item {
     public <T> String getDetails() {
         return details;
     }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        //return super.equals(obj);
+        if(this==obj)
+            return true;
+
+        if(  !(obj instanceof Item))
+            return false;
+
+        Item item =(Item)obj;
+        return id == item.id &&
+                Objects.equals(details, item.getDetails());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( details);
+    }
+
 
 
     public void testMethod(String test){

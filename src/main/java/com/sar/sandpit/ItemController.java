@@ -15,12 +15,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @RequestMapping("/todo")
 public class ItemController {
 
-   // @Autowired
-    ItemService itemService;
+    //@Autowired
+    ItemServiceable itemService;
 
     public ItemController(){}
     @Autowired
-    public ItemController(ItemService is) {
+    public ItemController(ItemServiceable is) {
         itemService=is;
     }
 
@@ -40,16 +40,17 @@ public class ItemController {
     }
 
     @PostMapping(path = "addItem")
-    public String addItemResult(@ModelAttribute ItemDto item, Model model){
+    public String addItemResult(@ModelAttribute ItemDto itemDto, Model model){
         //itemService.add(new Item(item.getId(), item.getDetails()));
 
         model.addAttribute("item",
                           // new Item(item.getId(), item.getDetails())
-                           //todo code working tests not! suggesting access across post request
-                           itemService.add(new Item(item.getId(), item.getDetails()))
+                           itemService.add(new Item(itemDto.getId(), itemDto.getDetails()))
         );
-        return "todo/addItemResult";
+        return
+                "todo/addItemResult";
 
+//                "todo/items";
     }
     @GetMapping(path="addItem")
     public String addItem(Model model){

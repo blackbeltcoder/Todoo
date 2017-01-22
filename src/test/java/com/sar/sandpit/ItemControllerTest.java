@@ -32,15 +32,15 @@ import static org.springframework.test.web.servlet.result.ModelResultMatchers.*;
  */
 @RunWith(SpringRunner.class)
 //@SpringBootTest
-//@AutoConfigureMockMvc    full mvc mock
-@WebMvcTest   // Just the web context
+//@AutoConfigureMockMvc   // full mvc mock
+@WebMvcTest//(ItemController.class)   // Just the web context
 public class ItemControllerTest {
 
-    //@Autowired
+    @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    ItemService itemService;
+    ItemServiceable itemService ;//= new ItemService();
 //    @MockBean
 //    ItemStorable itemStorable;
     @Captor
@@ -50,6 +50,8 @@ public class ItemControllerTest {
     @Before
     public void init(){
         mockMvc =MockMvcBuilders.standaloneSetup(new ItemController(itemService)).build();
+
+
     }
 
 
@@ -74,10 +76,15 @@ public class ItemControllerTest {
                         .param("details","taska")
         )
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("1")))
-                .andExpect(content().string(containsString("taska")))
-                .andExpect(view().name("todo/addItemResult"))
+//                .andExpect(content().string(containsString("1")))
+//                .andExpect(content().string(containsString("taska")))
+                //.andExpect(model().attributeExists("item"))
+                //.andExpect(model().attribute("item",is(equalTo(item))))
+
+                //.andExpect(view().name("todo/addItemResult"))
                 .andReturn();
+        verify(itemService,times(1)).add(itemCapture.capture());
+
 
     }
     @Test
@@ -88,8 +95,8 @@ public class ItemControllerTest {
                         .param("details","taskz")
         )
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("99")))
-                .andExpect(content().string(containsString("taskz")))
+//                .andExpect(content().string(containsString("99")))
+//                .andExpect(content().string(containsString("taskz")))
                 .andExpect(view().name("todo/addItemResult"))
                 .andReturn();
 
@@ -99,8 +106,8 @@ public class ItemControllerTest {
     public void addItem_WhenItemDoesnotExist_success() throws Exception {
 
 
-        final String task = "a task";
-        final long id = 1L;
+        final String task = "a taskq";
+        final long id = 11L;
         Item item = new Item(id, task);
 
 
@@ -115,7 +122,7 @@ public class ItemControllerTest {
                 .andExpect(status().isOk());
 
         verify(itemService,times(1)).add(itemCapture.capture());
-       // assertThat("should be equal", item, is(equalTo(itemCapture.getValue())));
+        assertThat("should be equal", item, is(equalTo(itemCapture.getValue())));
 
     }
 

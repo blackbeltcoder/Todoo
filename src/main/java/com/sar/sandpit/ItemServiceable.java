@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by N460906 on 13/10/2016.
  */
-@Service
+//@Service  // todo is this needed at the interface level
 public interface ItemServiceable {
     Item add(Item item);
     Item retrieve(long id);
