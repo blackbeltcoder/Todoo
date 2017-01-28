@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -18,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.isNotNull;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,6 +66,11 @@ public class ItemServiceTest {
 
     }
 
+    //////////////////////////////
+    //todo delete single item
+    /////////////////////////////
+
+
     @Test
     public void deleteTaskItem_success() throws Exception {
         Item item= new Item();
@@ -94,6 +102,11 @@ public class ItemServiceTest {
         verify(itemStorable).exists(id);
     }
 
+    //////////////////////////////
+    //todo update single item
+    /////////////////////////////
+
+
     @Test
     public void updateTask_Success() throws Exception {
         Item item = new Item();
@@ -103,6 +116,11 @@ public class ItemServiceTest {
         verify(itemStorable).save(itemCapture.capture());
         assertThat("item should be deleted ",itemCapture.getValue(), is(equalTo(item)));
     }
+
+    //////////////////////////////
+    // todo display single item
+    /////////////////////////////
+
 
     @Test
     public void getItem_success() throws Exception {
@@ -137,6 +155,28 @@ public class ItemServiceTest {
 
     }
 
+    //////////////////////////////
+    // todo display multiple items
+    /////////////////////////////
+
+    @Test
+    public void getMultipleItems_ItemsExist_Success() throws Exception {
+
+       // Item[] item = new Item[]{new Item(),new Item()};
+        List<Item> items = Arrays.asList(new Item(),new Item());
+        when(itemStorable.findAll()).thenReturn(items);
+        itemService.getItems();
+        verify(itemStorable,times(1)).findAll();
+
+
+
+
+    }
+
+
+    //////////////////////////////
+    // todo add single item
+    /////////////////////////////
 
     @Test
     public void addMultiple_using_explicitCurry_success(){
