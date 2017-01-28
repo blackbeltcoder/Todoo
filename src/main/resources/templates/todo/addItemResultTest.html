@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Item Result</title>
+</head>
+<body>
+<p th:text="'id ='+ ${item.id} + ' task = '+ ${item.details}"/>
+<p th:text="'id ='+ ${itemDto.id} + ' task = '+ ${itemDto.details}"/>
+</body>
+</html>

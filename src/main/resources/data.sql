@@ -1,1 +1,1 @@
-INSERT INTO Item (id, details) VALUES (1, 'dummy task 1');
+INSERT INTO Item (id, details) VALUES (99, 'dummy task 99');
