@@ -95,4 +95,13 @@ public class ItemController {
                 itemService.getItems());        return null;
         //return "todo/items";
     }
+
+    @PostMapping(value = "/deleteItem/{id}")
+    public String deleteItem( @PathVariable  Long id, ModelMap model ){
+        itemService.delete(1L);
+
+        //return null;
+        //return  "redirect:todo/items";
+        return "todo/items";
+    }
 }

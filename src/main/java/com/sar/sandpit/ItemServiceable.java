@@ -16,6 +16,8 @@ public interface ItemServiceable {
 
     boolean delete(Item item);
 
+    boolean delete(Long id);
+
     boolean updateItem(Item item);
 
     Item getItem(long l);
