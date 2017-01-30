@@ -218,8 +218,8 @@ public class ItemControllerTest {
     public void deleteItemById_GivenItemToDelete_Success() throws Exception {
         Long id =1L;
         when(itemServiceable.delete(id)).thenReturn(true);
-        mockMvc.perform(post(TODO_DELETE_ITEM_URL +id))
-                .andExpect(status().isOk())
+        mockMvc.perform(get(TODO_DELETE_ITEM_URL +id))
+                .andExpect(status().is3xxRedirection())
                 .andDo(print())
                 .andReturn()
         ;
@@ -232,10 +232,10 @@ public class ItemControllerTest {
     @Test
     public void deleteItemById_GivenItemToDelete_ReturnsSuccessPage() throws Exception {
         Long id =1L;
-        mockMvc.perform(post(TODO_DELETE_ITEM_URL +id))
-                .andExpect(status().isOk())
-                .andExpect(view().name(is("todo/items")))
-                .andExpect(forwardedUrl("todo/items"))
+        mockMvc.perform(get(TODO_DELETE_ITEM_URL +id))
+                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name(is("todo/items")))
+//                .andExpect(forwardedUrl("/todo/items"))
                 .andDo(print())
                 .andReturn()
         ;

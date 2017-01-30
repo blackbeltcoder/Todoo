@@ -83,6 +83,9 @@ public class ItemController {
 //        return a
 //    }
 
+    private void test() {
+//        Long i =1L;
+    }
 
 
 
@@ -96,12 +99,12 @@ public class ItemController {
         //return "todo/items";
     }
 
-    @PostMapping(value = "/deleteItem/{id}")
+    @GetMapping(value = "/deleteItem/{id}")
     public String deleteItem( @PathVariable  Long id, ModelMap model ){
-        itemService.delete(1L);
+        itemService.delete(id);
 
         //return null;
         //return  "redirect:todo/items";
-        return "todo/items";
+        return "redirect:/todo/items";
     }
 }

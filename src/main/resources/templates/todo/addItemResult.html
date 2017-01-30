@@ -8,5 +8,7 @@
 <body>
 <p th:text="'id ='+ ${item.id} + ' task = '+ ${item.details}"/>
 <p th:text="'id ='+ ${itemDto.id} + ' task = '+ ${itemDto.details}"/>
+<p><a th:href="@{/todo/addItem/}">Add Another</a></p>
+<p><a th:href="@{/todo/items/}">items</a></p>
 </body>
 </html>
