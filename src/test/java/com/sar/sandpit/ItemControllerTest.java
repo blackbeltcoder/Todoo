@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,6 +19,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 public class ItemControllerTest {
 
-   // @Autowired
+    public static final String TODO_DELETE_ITEM_URL = "/todo/deleteItem/";
+    // @Autowired
     MockMvc mockMvc;
 
     //@Autowired
@@ -42,6 +43,8 @@ public class ItemControllerTest {
 //    ItemStorable itemStorable;
     @Captor
     ArgumentCaptor<Item> itemCapture;
+    @Captor
+    ArgumentCaptor<Long> itemIdCapture;
    // @Autowired
     private WebApplicationContext wac;
 
@@ -197,6 +200,45 @@ public class ItemControllerTest {
                 .andExpect(view().name(is("todo/items")))
                 .andReturn();
         //verify(itemServiceable,times(1)).getItems();
+
+    }
+
+   // @Test
+    public void deleteItemByItem_GivenItemToDelete_Success() throws Exception {
+        Item item =new Item();
+        when(itemServiceable.delete(item)).thenReturn(true);
+        mockMvc.perform(post(TODO_DELETE_ITEM_URL))
+                .andExpect(status().isOk())
+                .andReturn();
+        verify(itemServiceable,times(1)).delete(itemCapture.capture());
+        assertThat(" should match Item ",item,is(equalTo(itemCapture.getValue())));
+
+    }
+    @Test
+    public void deleteItemById_GivenItemToDelete_Success() throws Exception {
+        Long id =1L;
+        when(itemServiceable.delete(id)).thenReturn(true);
+        mockMvc.perform(get(TODO_DELETE_ITEM_URL +id))
+                .andExpect(status().is3xxRedirection())
+                .andDo(print())
+                .andReturn()
+        ;
+
+        verify(itemServiceable,times(1)).delete(itemIdCapture.capture());
+        assertThat(" should match Item ",id,is(equalTo(itemIdCapture.getValue())));
+
+    }
+
+    @Test
+    public void deleteItemById_GivenItemToDelete_ReturnsSuccessPage() throws Exception {
+        Long id =1L;
+        mockMvc.perform(get(TODO_DELETE_ITEM_URL +id))
+                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name(is("todo/items")))
+//                .andExpect(forwardedUrl("/todo/items"))
+                .andDo(print())
+                .andReturn()
+        ;
 
     }
 }

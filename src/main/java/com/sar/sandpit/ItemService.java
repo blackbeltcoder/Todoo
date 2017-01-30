@@ -43,6 +43,12 @@ public class ItemService implements ItemServiceable {
     }
 
     @Override
+    public boolean delete(Long id) {
+         itemStore.delete(id);
+        return itemStore.exists(id);
+    }
+
+    @Override
     public Item add(Item item) {
         return itemStore.save(item);
     }

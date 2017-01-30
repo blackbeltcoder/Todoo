@@ -12,20 +12,32 @@
 <p th:text="'test 2 = '+ ${test}">not empty</p>
 <p th:text="'items count = '+${items.size()} "></p>
 
+<p><a th:href="@{/todo/deleteItem/{items}/}">
+    the items </a></p>
 <table>
     <thead>
     <tr>
         <th>ids</th>
         <th>detail snippet </th>
+        <th>actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item: ${items}" >
         <td th:text="${item.id} ">  </td>
         <td th:text="${item.details}"></td>
+        <td th:href="@{/todo/deleteItem/{item}}">
+            delete2
+            <a th:href="@{'/todo/deleteItem/'+${item.id}+'/'}">
+                delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
+<p><a th:href="@{/todo/addItem/}">add item</a>
+</p>
+
+
 
 
 </body>

@@ -102,6 +102,18 @@ public class ItemServiceTest {
         verify(itemStorable).exists(id);
     }
 
+    @Test
+    public void deleteTaskItemById_returnsTrue() throws Exception {
+        final Long id = 1L;
+        when(itemStorable.exists(id)).thenReturn(true);
+        boolean res = itemService.delete(id);
+        assertThat("should be true ",res,is(equalTo(true)));
+        verify(itemStorable, times(1)).exists(idCapture.capture());
+
+
+    }
+
+
     //////////////////////////////
     //todo update single item
     /////////////////////////////

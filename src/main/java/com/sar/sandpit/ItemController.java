@@ -83,6 +83,9 @@ public class ItemController {
 //        return a
 //    }
 
+    private void test() {
+//        Long i =1L;
+    }
 
 
 
@@ -94,5 +97,14 @@ public class ItemController {
         modalMap.addAttribute("items",
                 itemService.getItems());        return null;
         //return "todo/items";
+    }
+
+    @GetMapping(value = "/deleteItem/{id}")
+    public String deleteItem( @PathVariable  Long id, ModelMap model ){
+        itemService.delete(id);
+
+        //return null;
+        //return  "redirect:todo/items";
+        return "redirect:/todo/items";
     }
 }
