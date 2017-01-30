@@ -1,31 +1,26 @@
 package com.sar.sandpit;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.ModelResultMatchers.*;
 
 /**
  * Created by genio on 20/11/16.
@@ -34,22 +29,27 @@ import static org.springframework.test.web.servlet.result.ModelResultMatchers.*;
 //@SpringBootTest
 //@AutoConfigureMockMvc   // full mvc mock
 @WebMvcTest//(ItemController.class)   // Just the web context
+@WebAppConfiguration
 public class ItemControllerTest {
 
-    @Autowired
+   // @Autowired
     MockMvc mockMvc;
 
+    //@Autowired
     @MockBean
-    ItemServiceable itemService ;//= new ItemService();
+    ItemServiceable itemServiceable;//= new ItemService();
 //    @MockBean
 //    ItemStorable itemStorable;
     @Captor
     ArgumentCaptor<Item> itemCapture;
+   // @Autowired
+    private WebApplicationContext wac;
 
 
     @Before
     public void init(){
-        mockMvc =MockMvcBuilders.standaloneSetup(new ItemController(itemService)).build();
+        mockMvc =MockMvcBuilders.standaloneSetup(new ItemController(itemServiceable)).build();
+       // mockMvc =  MockMvcBuilders.webAppContextSetup(this.wac).build();
 
 
     }
@@ -66,8 +66,8 @@ public class ItemControllerTest {
         Item item = new Item(id, task);
 
 
-        //when(itemService.add(item)).thenReturn( new Item());
-        when(itemService.add(item)).thenReturn(item);
+        //when(itemServiceable.add(item)).thenReturn( new Item());
+        when(itemServiceable.add(item)).thenReturn(item);
 
 
         mockMvc.perform(
@@ -83,7 +83,7 @@ public class ItemControllerTest {
 
                 //.andExpect(view().name("todo/addItemResult"))
                 .andReturn();
-        verify(itemService,times(1)).add(itemCapture.capture());
+        verify(itemServiceable, times(1)).add(itemCapture.capture());
 
 
     }
@@ -111,8 +111,8 @@ public class ItemControllerTest {
         Item item = new Item(id, task);
 
 
-        //when(itemService.add(item)).thenReturn( new Item());
-        when(itemService.add(item)).thenReturn(item);
+        //when(itemServiceable.add(item)).thenReturn( new Item());
+        when(itemServiceable.add(item)).thenReturn(item);
 
         mockMvc.perform(
                 post("/todo/addItem/")
@@ -121,11 +121,14 @@ public class ItemControllerTest {
         )
                 .andExpect(status().isOk());
 
-        verify(itemService,times(1)).add(itemCapture.capture());
+        verify(itemServiceable, times(1)).add(itemCapture.capture());
         assertThat("should be equal", item, is(equalTo(itemCapture.getValue())));
 
     }
 
+    //////////////////////////////
+    // todo display single item
+    /////////////////////////////
     @Test
     public void displayItem_StoreHasOneItem_Success() throws Exception {
 
@@ -134,7 +137,7 @@ public class ItemControllerTest {
 
 
 
-        when(itemService.getItem(id)).thenReturn(new Item(id,detail));
+        when(itemServiceable.getItem(id)).thenReturn(new Item(id, detail));
         mockMvc.perform(get("/todo/item/"+id))
                 .andExpect(status().isOk())
                 .andExpect(view().name("todo/item"))
@@ -143,7 +146,7 @@ public class ItemControllerTest {
         //.andExpect();
         ;
 
-        verify(itemService).getItem(id);
+        verify(itemServiceable).getItem(id);
        // throw new NotImplementedException();
 
         
@@ -157,7 +160,7 @@ public class ItemControllerTest {
         Item item = new Item(id, detail);
 
 
-        when(itemService.getItem(id)).thenReturn(item);
+        when(itemServiceable.getItem(id)).thenReturn(item);
         mockMvc.perform(get("/todo/item/"+id))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("item", is(equalTo(item))))
@@ -165,9 +168,35 @@ public class ItemControllerTest {
         //.andExpect();
         ;
 
-        verify(itemService).getItem(id);
+        verify(itemServiceable).getItem(id);
         // throw new NotImplementedException();
     }
 
+    //////////////////////////////
+    // todo display multiple items
+    /////////////////////////////
 
+
+    @Test
+    public void displayMultipleItems_Success() throws Exception {
+
+
+        when(itemServiceable.getItems()).thenReturn(Arrays.asList(new Item(), new Item()));
+        mockMvc.perform(get("/todo/items/"))
+                .andExpect(status().isOk())
+                .andReturn();
+        verify(itemServiceable,times(1)).getItems();
+
+    }
+    @Test
+    public void displayMultipleItems2_Success() throws Exception {
+        //when(itemServiceable.getItems()).thenReturn(Arrays.asList(new Item(), new Item()));
+        mockMvc.perform(get("/todo/items/"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("items"))
+                .andExpect(view().name(is("todo/items")))
+                .andReturn();
+        //verify(itemServiceable,times(1)).getItems();
+
+    }
 }

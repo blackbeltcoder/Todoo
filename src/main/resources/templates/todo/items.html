@@ -10,9 +10,23 @@
 <p th:text="'test 1 = '+ ${test}"></p>
 
 <p th:text="'test 2 = '+ ${test}">not empty</p>
+<p th:text="'items count = '+${items.size()} "></p>
 
-th:text="'test 3 = '+ ${test}"
-#test4
-##test5
+<table>
+    <thead>
+    <tr>
+        <th>ids</th>
+        <th>detail snippet </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item: ${items}" >
+        <td th:text="${item.id} ">  </td>
+        <td th:text="${item.details}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
 </body>
 </html>

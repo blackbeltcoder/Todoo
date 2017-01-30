@@ -3,6 +3,8 @@ package com.sar.sandpit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by N460906 on 13/10/2016.
  */
@@ -35,6 +37,10 @@ public class ItemService implements ItemServiceable {
         return itemStore.findOne(id);
     }
 
+    @Override
+    public List<Item> getItems() {
+        return (List<Item>) itemStore.findAll();
+    }
 
     @Override
     public Item add(Item item) {
