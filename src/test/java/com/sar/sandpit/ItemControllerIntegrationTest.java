@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -55,7 +56,7 @@ public class ItemControllerIntegrationTest {
     @Test
     public void AddItem_success() throws Exception {
         Item item = new Item(1L, "one task");
-        when(itemService.add(item)).thenReturn(item);
+        when(itemService.add(any(Item.class))).thenReturn(item);
 
         mockMvc.perform(
                 get("/todo/addItemTest/")
@@ -72,6 +73,7 @@ public class ItemControllerIntegrationTest {
 
     @Test
     public void addItem2_Success() throws Exception {
+        when(itemService.add(any())).thenReturn(new Item(123,"abc"));
         mockMvc.perform(
                 post("/todo/addItem/")
                         .param("id", "1")
