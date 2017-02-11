@@ -78,15 +78,7 @@ public class ItemController {
     }
 
 
-//    @RequestMapping("addItemResult")
-//    public String addItemResult(Model model){
-//
-//        return a
-//    }
 
-    private void test() {
-//        Long i =1L;
-    }
 
 
 

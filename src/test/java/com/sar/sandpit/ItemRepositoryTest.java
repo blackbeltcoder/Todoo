@@ -1,9 +1,12 @@
 package com.sar.sandpit;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
+import org.mockito.internal.stubbing.answers.ThrowsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,6 +35,9 @@ public class ItemRepositoryTest {
 
     @Autowired
     ItemStorable  itemRepo2;
+
+    @Rule
+    public ExpectedException exception  = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -98,6 +104,16 @@ public class ItemRepositoryTest {
     }
 
 
+    @Test
+    public void deleteItem_whileItemMissingFromRepo_throwException() throws Exception {
+
+
+
+
+
+
+        exception.expect(isA(RuntimeException.class));
+    }
 
     @Test
     public void updateRepos_itemUpdated() throws Exception {
