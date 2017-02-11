@@ -17,9 +17,9 @@
 <table>
     <thead>
     <tr>
-        <th>ids</th>
-        <th>detail snippet </th>
-        <th>actions</th>
+        <th>Id</th>
+        <th>Detail Snippet </th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -29,12 +29,12 @@
         <td th:href="@{/todo/deleteItem/{item}}">
             delete2
             <a th:href="@{'/todo/deleteItem/'+${item.id}+'/'}">
-                delete</a>
+                Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
-<p><a th:href="@{/todo/addItem/}">add item</a>
+<p><a th:href="@{/todo/addItem/}">Add Item</a>
 </p>
 
 

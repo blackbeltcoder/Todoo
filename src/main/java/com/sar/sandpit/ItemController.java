@@ -48,7 +48,8 @@ public class ItemController {
 
         model.addAttribute("item",
                            // new Item(item.getId(), item.getDetails())
-                           itemService.add(new Item(itemDto.getId(), itemDto.getDetails()))
+                           itemService.add(new Item(itemDto.getId(), itemDto.getDetails()
+                                   +" TEST"))
         );
         return
                 "todo/addItemResultTest";
